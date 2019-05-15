@@ -1,13 +1,5 @@
-float drehzahl = 100;
-float maxDrehzahl = 255;
-float geschwindigkeit = 0;
-float maxGeschwindigkeit = 255;
-
-
-boolean gTestFlag = true;
-boolean dTestFlag = true;
-
-
+//Program for creating the UI background
+//@Robin Holzwarth
 
 void setup(){
   //default 720x480

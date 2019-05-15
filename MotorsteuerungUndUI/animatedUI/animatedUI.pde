@@ -1,3 +1,6 @@
+//Animated UI for the Karre
+//@Robin Holzwarth
+
 float drehzahl = 100;
 float maxDrehzahl = 255;
 float geschwindigkeit = 0;

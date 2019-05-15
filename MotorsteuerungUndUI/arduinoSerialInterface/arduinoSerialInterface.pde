@@ -1,3 +1,6 @@
+//First sketch for interfacing with CAN arduino over serial
+//@Robin Holzwarth
+
 import processing.serial.*;
 
 Serial arduino;
