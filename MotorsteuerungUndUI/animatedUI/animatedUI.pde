@@ -1,4 +1,4 @@
-//Animated UI for the Karre
+//Animated UI with serial arduino interface for the Karre
 //@Robin Holzwarth
 
 float drehzahl = 100;
@@ -12,21 +12,37 @@ boolean dTestFlag = true;
 
 PImage bckgrnd;
 
+import processing.serial.*;
+
+Serial arduino;
+
+//2xGeschwindigkeit, Drehzahl, Gang/Kupplung; je die drei letzten werte
+byte[][] input = new byte[4][3];
+
+byte index = 0;
+
 void setup(){
   bckgrnd = loadImage("background.png");
   //default 720x480
   size(720, 480);
   background(bckgrnd);
+  
+  String portName = Serial.list()[2];
+
+  arduino = new Serial(this, portName, 115200);
 }
 
 
 
 void draw(){
   background(bckgrnd);
-  float gaugeLength = height*0.35;
+  drawGauges();
+  getInput();
+  
+}
 
-  geschwindigkeitTest(2);
-  drehzahlTest(2);
+void drawGauges(){
+  float gaugeLength = height*0.35;
   
   pushMatrix();
   
@@ -42,11 +58,6 @@ void draw(){
   popMatrix();
   pushMatrix();
   
-  
-  
-  
-  
-  
   //drehzahl (links)
   translate(width/3.5, height/2);
   
@@ -57,9 +68,7 @@ void draw(){
   line(0, 0, sin(beta)*gaugeLength, cos(beta)*gaugeLength);
 
   popMatrix();
-  
 }
-
 
 void geschwindigkeitTest(float s){
   if(gTestFlag){
@@ -95,4 +104,22 @@ void drehzahlTest(float s){
     dTestFlag = !dTestFlag;
     drehzahl = 1;
   }
+}
+
+void getInput(){
+  //Maximalwerte: 280, 8000, 6+r
+  if(arduino.available() >= 4){
+    input[0][index] = (byte)arduino.read();
+    input[1][index] = (byte)arduino.read();
+    input[2][index] = (byte)arduino.read();
+    input[3][index] = (byte)arduino.read();
+  }
+  
+  index++;
+  
+  if(index > 2) index = 0;
+}
+
+void computeValues(){
+  
 }
