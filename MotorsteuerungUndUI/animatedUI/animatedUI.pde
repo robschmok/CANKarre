@@ -10,6 +10,8 @@ int maxGeschwindigkeit = 65535;
 short gang = 0;
 boolean kupplung = false;
 boolean sportModus = false;
+boolean blinkerLinks = true;
+boolean blinkerRechts = true;
 
 //boolean to toggle test animations and button functions
 boolean testEnvironment = true;
@@ -35,10 +37,11 @@ void draw(){
   background(bckgrnd);
   //getInput();
   //computeValues();
+  drawTurningLights();
   drawGauges();
   drawDisplays();
-  //geschwindigkeitTest(400);
-  //drehzahlTest(2);
+  geschwindigkeitTest(400);
+  drehzahlTest(2);
 }
 
 //function for drawing both gauges
@@ -119,5 +122,40 @@ void drawDisplays(){
   } else{
     fill(0, 0, 255);
     text("C", posx, posy);
+  }
+}
+
+void drawTurningLights(){
+  float xoffset = width/15;
+  if(blinkerLinks){
+    pushMatrix();
+    translate(width - width/3.5 - xoffset, height/2 - 10);
+    fill(0, 255, 0);
+    beginShape();
+    vertex(0, 0);
+    vertex(-30, 0);
+    vertex(-30, -10);
+    vertex(-50, 10);
+    vertex(-30, 30);
+    vertex(-30, 20);
+    vertex(0, 20);
+    endShape();
+    popMatrix();
+  } 
+  
+  if(blinkerRechts){
+    pushMatrix();
+    translate(width - width/3.5 + xoffset, height/2 - 10);
+    fill(0, 255, 0);
+    beginShape();
+    vertex(0, 0);
+    vertex(30, 0);
+    vertex(30, -10);
+    vertex(50, 10);
+    vertex(30, 30);
+    vertex(30, 20);
+    vertex(0, 20);
+    endShape();
+    popMatrix();
   }
 }

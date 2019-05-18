@@ -7,13 +7,13 @@ void setup(){
   background(51);
 
   
-  //drawBackground();
-  //saveFrame("background.png");
+  drawBackground();
+  saveFrame("../animatedUI/background.png");
 }
 
 void draw(){
-  background(51);
-  drawBackground();
+  //background(51);
+  //drawBackground();
 }
 
 void drawBackground(){
@@ -44,21 +44,41 @@ void drawBackground(){
   text("km/h", 0, -height/5);
   
   //skala
-  for(float i = 0; i < 250; i+=1){
+  for(float i = 0; i < 320; i+=1){
     float inner = height*0.38;
     stroke(51);
     strokeWeight(1);
-    float angle = -((3*PI/2) * (i/250) + PI/4);
+    float angle = -((3*PI/2) * (i/320) + PI/4);
     line(inner*sin(angle), inner*cos(angle), outer*sin(angle), outer*cos(angle));
   }
   
-  for(float i = 0; i <= 250; i+=5){
+  for(float i = 0; i <= 320; i+=5){
     float inner = height*0.36;
     stroke(51);
     strokeWeight(1);
-    float angle = -((3*PI/2) * (i/250) + PI/4);
+    float angle = -((3*PI/2) * (i/320) + PI/4);
     line(inner*sin(angle), inner*cos(angle), outer*sin(angle), outer*cos(angle));
   }
+  
+  for(float i = 0; i <= 320; i+=20){
+    float inner = height*0.35;
+    stroke(51);
+    strokeWeight(1);
+    float angle = -((3*PI/2) * (i/320) + PI/4);
+    line(inner*sin(angle), inner*cos(angle), outer*sin(angle), outer*cos(angle));
+    float textRadius = 0.31*height;
+    textSize(18);
+    textAlign(CENTER, CENTER);
+    text((int)i, textRadius*sin(angle), textRadius*cos(angle));
+  }
+  
+  float innerR = height*0.35;
+  stroke(255, 0, 0);
+  strokeWeight(2);
+  float angle2 = -((3*PI/2) * ((float)30/320) + PI/4);
+  line(innerR*sin(angle2), innerR*cos(angle2), outer*sin(angle2), outer*cos(angle2));
+  float angle3 = -((3*PI/2) * ((float)50/320) + PI/4);
+  line(innerR*sin(angle3), innerR*cos(angle3), outer*sin(angle3), outer*cos(angle3));
   
   popMatrix();
   pushMatrix();
@@ -89,6 +109,10 @@ void drawBackground(){
     strokeWeight(2);
     float angle = -(PI * (i/32) + PI/4);
     line(inner*sin(angle), inner*cos(angle), outer*sin(angle), outer*cos(angle));
+    float textRadius = 0.31*height;
+    textSize(30);
+    textAlign(CENTER, CENTER);
+    text((int)i/4, textRadius*sin(angle), textRadius*cos(angle));
   }
   
   popMatrix();

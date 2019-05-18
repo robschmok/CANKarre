@@ -49,4 +49,8 @@ void computeValues(){
   kupplung = (input[3][0]&0x08) == 0x08;
   
   sportModus = (input[3][0]&0x10) == 0x10;
+  
+  blinkerRechts = (input[3][0]&0x20) == 0x20;
+  
+  blinkerLinks = (input[3][0]&0x40) == 0x40;
 }
