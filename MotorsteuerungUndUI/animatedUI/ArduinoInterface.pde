@@ -1,6 +1,6 @@
 import processing.serial.*;
 
-Serial arduino;
+Serial Arduino;
 
 //array for serial inputs from arduino
 //2xGeschwindigkeit, Drehzahl, Gang/Kupplung; je die drei letzten werte
@@ -13,21 +13,21 @@ byte index = 0;
 void initPortAndSerial(){
   String portName = Serial.list()[2];
 
-  arduino = new Serial(this, portName, 115200);
+  Arduino = new Serial(this, portName, 115200);
 }
 
 //function for receiving serial data from arduino and writing it into the input array
 void getInput(){
   //Maximalwerte: 280, 8000, 6+r
-  if(arduino.available() >= 4){
+  if(Arduino.available() >= 4){
     //MSB geschwindigkeit
-    input[0][index] = (short)arduino.read();
+    input[0][index] = (short)Arduino.read();
     //LSB geschwindigkeit
-    input[1][index] = (short)arduino.read();
+    input[1][index] = (short)Arduino.read();
     //Drehzahl
-    input[2][index] = (short)arduino.read();
+    input[2][index] = (short)Arduino.read();
     //Gang/Kupplung
-    input[3][index] = (short)arduino.read();
+    input[3][index] = (short)Arduino.read();
   }
   
   index++;

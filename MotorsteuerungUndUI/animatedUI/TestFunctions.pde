@@ -10,9 +10,9 @@ void geschwindigkeitTest(float s){
     geschwindigkeit-=s;
   }
   
-  if(geschwindigkeit >= 255){
+  if(geschwindigkeit >= 65535){
     gEndpoint = !gEndpoint;
-    geschwindigkeit = 254;
+    geschwindigkeit = 65534;
   }
   
   if(geschwindigkeit <= 0){

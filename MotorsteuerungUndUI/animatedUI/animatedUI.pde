@@ -2,7 +2,7 @@
 //@Robin Holzwarth
 
 //global status variables
-short drehzahl = 100;
+short drehzahl = 0;
 short maxDrehzahl = 255;
 int geschwindigkeit = 0;
 int maxGeschwindigkeit = 65535;
@@ -37,8 +37,8 @@ void draw(){
   //computeValues();
   drawGauges();
   drawDisplays();
-  geschwindigkeitTest(2);
-  drehzahlTest(2);
+  //geschwindigkeitTest(400);
+  //drehzahlTest(2);
 }
 
 //function for drawing both gauges
@@ -51,7 +51,7 @@ void drawGauges(){
   translate(width - width/3.5, height/2);
   
   //zeiger
-  float alpha = -((3*PI/2) * (geschwindigkeit/maxGeschwindigkeit) + PI/4);
+  float alpha = -((3*PI/2) * ((float)geschwindigkeit/maxGeschwindigkeit) + PI/4);
   strokeWeight(5);
   stroke(255, 165, 0);
   line(0, 0, sin(alpha)*gaugeLength, cos(alpha)*gaugeLength);
@@ -63,7 +63,7 @@ void drawGauges(){
   translate(width/3.5, height/2);
   
   //zeiger
-  float beta = -(PI * (drehzahl/maxDrehzahl) + PI/4);
+  float beta = -(PI * ((float)drehzahl/maxDrehzahl) + PI/4);
   strokeWeight(5);
   stroke(255, 165, 0);
   line(0, 0, sin(beta)*gaugeLength, cos(beta)*gaugeLength);
@@ -79,8 +79,10 @@ void drawDisplays(){
   textAlign(CENTER, CENTER);
   textFont(sevenSegmentFont);
   if(1 <= gang && gang <= 6){
-    float r = (float)(gang-1)/5;
-    fill(sq(sin(r))*255, sq(cos(r))*255, 0);
+    float frac = (float)(gang-1)/5;
+    float g = -pow(frac, 4)+1;
+    float r = -pow(frac - 1, 4)+1;
+    fill(r*255, g*255, 0);
     text((int)gang, posx, posy);
   } else if(gang == 0){
     fill(255, 0, 255);
