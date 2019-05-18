@@ -6,6 +6,17 @@ void setup(){
   size(720, 480);
   background(51);
 
+  
+  //drawBackground();
+  //saveFrame("background.png");
+}
+
+void draw(){
+  background(51);
+  drawBackground();
+}
+
+void drawBackground(){
   float outer = height*0.4;
   
   fill(255);
@@ -81,10 +92,4 @@ void setup(){
   }
   
   popMatrix();
-  
-  saveFrame("background.png");
-}
-
-void draw(){
-  
 }
