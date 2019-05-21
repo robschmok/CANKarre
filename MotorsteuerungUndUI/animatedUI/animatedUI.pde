@@ -10,11 +10,11 @@ int maxGeschwindigkeit = 65535;
 short gang = 0;
 boolean kupplung = false;
 boolean sportModus = false;
-boolean blinkerLinks = true;
-boolean blinkerRechts = true;
+boolean blinkerLinks = false;
+boolean blinkerRechts = false;
 
 //boolean to toggle test animations and button functions
-boolean testEnvironment = true;
+boolean testEnvironment = false;
 
 //background image variable
 PImage bckgrnd;
@@ -30,19 +30,17 @@ void setup(){
   
   sevenSegmentFont = createFont("sevenSegment.ttf", 50);
   
-  //initPortAndSerial();
-  //initPortAndSerialOut();
+  initPortAndSerial();
 }
 
 void draw(){
   background(bckgrnd);
-  //getInput();
-  //computeValues();
+  getInput();
+  computeValues();
   drawTurningLights();
   drawGauges();
   drawDisplays();
-  geschwindigkeitTest(400);
-  drehzahlTest(480);
+  sendSerial();
 }
 
 //function for drawing both gauges
