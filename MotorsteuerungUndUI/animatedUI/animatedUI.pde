@@ -2,11 +2,11 @@
 //@Robin Holzwarth
 
 //global status variables
-short drehzahl = 0;
-short maxDrehzahl = 255;
+int drehzahl = 0;
+int maxDrehzahl = 65535;
 int geschwindigkeit = 0;
 int maxGeschwindigkeit = 65535;
-//0=rückwarts; 1-6=forwärts, 7=N
+//0=rückwarts; 1-7=forwärts
 short gang = 0;
 boolean kupplung = false;
 boolean sportModus = false;
@@ -31,6 +31,7 @@ void setup(){
   sevenSegmentFont = createFont("sevenSegment.ttf", 50);
   
   //initPortAndSerial();
+  //initPortAndSerialOut();
 }
 
 void draw(){
@@ -41,7 +42,7 @@ void draw(){
   drawGauges();
   drawDisplays();
   geschwindigkeitTest(400);
-  drehzahlTest(2);
+  drehzahlTest(480);
 }
 
 //function for drawing both gauges
@@ -81,8 +82,8 @@ void drawDisplays(){
   
   textAlign(CENTER, CENTER);
   textFont(sevenSegmentFont);
-  if(1 <= gang && gang <= 6){
-    float frac = (float)(gang-1)/5;
+  if(1 <= gang && gang <= 7){
+    float frac = (float)(gang-1)/6;
     float g = -pow(frac, 4)+1;
     float r = -pow(frac - 1, 4)+1;
     fill(r*255, g*255, 0);
@@ -90,11 +91,7 @@ void drawDisplays(){
   } else if(gang == 0){
     fill(255, 0, 255);
     text("R", posx, posy);
-  } else if(gang == 7){
-    fill(0, 246, 255);
-    text("N", posx, posy);
   }
-  
   posy = 37*height/40;
   
   noFill();

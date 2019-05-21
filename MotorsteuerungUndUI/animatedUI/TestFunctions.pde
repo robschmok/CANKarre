@@ -29,9 +29,9 @@ void drehzahlTest(float s){
     drehzahl-=s;
   }
   
-  if(drehzahl >= 255){
+  if(drehzahl >= 65535){
     dEndpoint = !dEndpoint;
-    drehzahl = 254;
+    drehzahl = 65534;
   }
   
   if(drehzahl <= 0){
@@ -45,9 +45,6 @@ void keyPressed(){
   if(testEnvironment){
     if(key == 'k'){
       kupplung = true;
-    }
-    if(key == 'n'){
-      gang = 7;
     }
     if(key == 'r'){
       gang = 0;
@@ -75,6 +72,9 @@ void keyPressed(){
     }
     if(key == '6'){
       gang = 6;
+    }
+    if(key == '7'){
+      gang = 7;
     }
   }
 }
