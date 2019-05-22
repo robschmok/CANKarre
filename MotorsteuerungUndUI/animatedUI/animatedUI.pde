@@ -7,7 +7,7 @@ int maxDrehzahl = 65535;
 int geschwindigkeit = 0;
 int maxGeschwindigkeit = 65535;
 //0=rückwarts; 1-7=forwärts
-short gang = 0;
+byte gang = 0;
 boolean kupplung = false;
 boolean sportModus = false;
 boolean blinkerLinks = false;
@@ -31,16 +31,18 @@ void setup(){
   sevenSegmentFont = createFont("sevenSegment.ttf", 50);
   
   initPortAndSerial();
+  //initSPortAndSerial
 }
 
 void draw(){
   background(bckgrnd);
   getInput();
   computeValues();
-  drawTurningLights();
+  if(blinkerRechts) drawBlinkerRechts();
+  if(blinkerLinks) drawBlinkerLinks();
   drawGauges();
   drawDisplays();
-  sendSerial();
+  //sendSerial();
 }
 
 //function for drawing both gauges
@@ -82,7 +84,7 @@ void drawDisplays(){
   textFont(sevenSegmentFont);
   if(1 <= gang && gang <= 7){
     float frac = (float)(gang-1)/6;
-    float g = -pow(frac, 4)+1;
+    float g = -pow(frac, 2)+1;
     float r = -pow(frac - 1, 4)+1;
     fill(r*255, g*255, 0);
     text((int)gang, posx, posy);
@@ -120,37 +122,36 @@ void drawDisplays(){
   }
 }
 
-void drawTurningLights(){
+void drawBlinkerRechts(){
   float xoffset = width/15;
-  if(blinkerLinks){
-    pushMatrix();
-    translate(width - width/3.5 - xoffset, height/2 - 10);
-    fill(0, 255, 0);
-    beginShape();
-    vertex(0, 0);
-    vertex(-30, 0);
-    vertex(-30, -10);
-    vertex(-50, 10);
-    vertex(-30, 30);
-    vertex(-30, 20);
-    vertex(0, 20);
-    endShape();
-    popMatrix();
-  } 
-  
-  if(blinkerRechts){
-    pushMatrix();
-    translate(width - width/3.5 + xoffset, height/2 - 10);
-    fill(0, 255, 0);
-    beginShape();
-    vertex(0, 0);
-    vertex(30, 0);
-    vertex(30, -10);
-    vertex(50, 10);
-    vertex(30, 30);
-    vertex(30, 20);
-    vertex(0, 20);
-    endShape();
-    popMatrix();
-  }
+  pushMatrix();
+  translate(width - width/3.5 + xoffset, height/2 - 10);
+  fill(0, 255, 0);
+  beginShape();
+  vertex(0, 0);
+  vertex(30, 0);
+  vertex(30, -10);
+  vertex(50, 10);
+  vertex(30, 30);
+  vertex(30, 20);
+  vertex(0, 20);
+  endShape();
+  popMatrix();
+}
+
+void drawBlinkerLinks(){
+  float xoffset = width/15;
+  pushMatrix();
+  translate(width - width/3.5 - xoffset, height/2 - 10);
+  fill(0, 255, 0);
+  beginShape();
+  vertex(0, 0);
+  vertex(-30, 0);
+  vertex(-30, -10);
+  vertex(-50, 10);
+  vertex(-30, 30);
+  vertex(-30, 20);
+  vertex(0, 20);
+  endShape();
+  popMatrix();
 }

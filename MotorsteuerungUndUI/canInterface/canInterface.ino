@@ -6,8 +6,7 @@ volatile byte lsbGeschwindigkeit = 0;
 volatile byte msbDrehzahl = 0;
 volatile byte lsbDrehzahl = 0;
 volatile byte rest = 0;
-volatile bool blinkerRechts = false;
-volatile bool blinkerLinks = false;
+volatile bool blinker = false;
 
 #define CAN0_INT 2
 const byte SPI_CS_PIN = 10;
@@ -17,11 +16,7 @@ byte empf_len;
 
 void setup() {
   Serial.begin(115200);
-  if (CAN0.begin(MCP_ANY, CAN_10KBPS, MCP_16MHZ) == CAN_OK) {
-    Serial.println("MCP2515 Initialized Successfully!\n");
-  } else{
-    Serial.println("Error Initializing MCP2515...\n");
-  }
+  CAN0.begin(MCP_ANY, CAN_10KBPS, MCP_16MHZ);
 
   CAN0.setMode(MCP_NORMAL);  // Change to normal mode to allow messages to be transmitted
   pinMode(CAN0_INT, INPUT);  // RX: Configuring pin for /INT input
@@ -32,18 +27,18 @@ void setup() {
   TCCR1B = 0;// same for TCCR1B
   TCNT1  = 0;//initialize counter value to 0
   // set compare match register for 1hz increments
-  OCR1A = 15624;// = (16*10^6) / (1*1024) - 1 (must be <65536)
+  OCR1A = 3906;// = (16*10^6) / (1*1024) - 1 (must be <65536)
   // turn on CTC mode
   TCCR1B |= (1 << WGM12);
   // Set CS12 and CS10 bits for 1024 prescaler
   TCCR1B |= (1 << CS12) | (1 << CS10);  
   // enable timer compare interrupt
   TIMSK1 |= (1 << OCIE1A);
+  interrupts();
 }
 
 ISR(TIMER1_COMPA_vect){
-  blinkerLinks = !blinkerLinks;
-  blinkerRechts = !blinkerRechts;
+  blinker = !blinker;
 }
 
 void empfangen() {
@@ -56,29 +51,39 @@ void empfangen() {
       msbDrehzahl = input[2];
       lsbDrehzahl = input[3];
       rest = input[4];
+      if(msbGeschwindigkeit == 0xFF) msbGeschwindigkeit = 0xFE;
+      if(lsbGeschwindigkeit == 0xFF) lsbGeschwindigkeit = 0xFE;
+      if(msbDrehzahl == 0xFF) msbDrehzahl = 0xFE;
+      if(lsbDrehzahl == 0xFF) lsbDrehzahl = 0xFE;
     }
   }
 }
 
 void loop(){
   empfangen();
+  senden();
+}
 
+void senden(){
   byte bRechtsOut = 0;
   byte bLinksOut = 0;
-  if((rest&0x02) == 0x02 && blinkerRechts){
-    byte bRechtsOut = 0x02;
+  if(((rest&0x20) == 0x20) && blinker){
+    bRechtsOut = 0x20;
   }
 
-  if((rest&0x04) == 0x04 && blinkerLinks){
-    byte bLinksOut = 0x04;
+  if(((rest&0x40) == 0x40) && blinker){
+    bLinksOut = 0x40;
   }
 
-  byte restNeu = rest&0x4F;
+  byte restNeu = rest&0x9F;
   restNeu |= bRechtsOut | bLinksOut;
-  
+
+  Serial.write(0xFF);
   Serial.write(msbGeschwindigkeit);
   Serial.write(lsbGeschwindigkeit);
   Serial.write(msbDrehzahl);
   Serial.write(lsbDrehzahl);
   Serial.write(restNeu);
 }
+
+

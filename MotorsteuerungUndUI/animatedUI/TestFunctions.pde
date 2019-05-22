@@ -76,6 +76,12 @@ void keyPressed(){
     if(key == '7'){
       gang = 7;
     }
+    if(keyCode == LEFT){
+      blinkerLinks = !blinkerLinks;
+    }
+    if(keyCode == RIGHT){
+      blinkerRechts = !blinkerRechts;
+    }
   }
 }
 

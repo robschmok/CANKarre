@@ -14,16 +14,23 @@ byte index = 0;
 //function for initializing arduino serial connection
 void initPortAndSerial(){
   String portName = Serial.list()[2];
-  String portName2 = Serial.list()[3];
-
   Arduino = new Serial(this, portName, 115200);
+  Arduino.buffer(6);
+}
+
+//function for initializing servo arduino serial connection
+void initSPortAndSerial(){
+  String portName2 = Serial.list()[3];
   sArduino = new Serial(this, portName2, 115200);
 }
 
 //function for receiving serial data from arduino and writing it into the input array
 void getInput(){
   //Maximalwerte: 280, 8000, 6+r
-  if(Arduino.available() >= 5){
+  if(Arduino.available() >= 12){
+    while(Arduino.read() != 0xFF){
+      
+    }
     //MSB geschwindigkeit
     input[0][index] = (short)Arduino.read();
     //LSB geschwindigkeit
@@ -34,8 +41,8 @@ void getInput(){
     input[3][index] = (short)Arduino.read();
     //Gang/Kupplung
     input[4][index] = (short)Arduino.read();
+    println(input[4][0]);
   }
-  
   index++;
   
   if(index > 2) index = 0;
@@ -53,7 +60,7 @@ void computeValues(){
   
   geschwindigkeit = lsbSpeed + (msbSpeed<<8);
   
-  gang = (short)(input[4][0]&0x07);
+  gang = (byte)(input[4][0]&0x07);
   
   kupplung = (input[4][0]&0x08) == 0x08;
   
