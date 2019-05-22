@@ -17,14 +17,17 @@ void draw(){
 }
 
 void drawBackground(){
+  //circle radius
   float outer = height*0.4;
   
+  //circles
   fill(255);
   stroke(51);
   strokeWeight(5);
   ellipse(width/3.5, height/2, height*0.8, height*0.8);
   ellipse(width - width/3.5, height/2, height*0.8, height*0.8);
   
+  //centerpoints
   fill(51);
   stroke(51);
   strokeWeight(5);

@@ -1,11 +1,22 @@
+// Programm zur Steuerung der physischen UI
+// @Gruppenmitglied1, @Gruppenmitglied2...
 #include <Servo.h>
 
-//statusvariablen
+//Inputvariablen
 byte msbGeschwindigkeit = 0;
 byte lsbGeschwindigkeit = 0;
 byte msbDrehzahl = 0;
 byte lsbDrehzahl = 0;
 byte rest = 0;
+
+//Statusvariablen
+unsigned short geschwindigkeit = 0;
+unsigned short drehzahl = 0;
+byte gang = 0;
+bool kupplung = false;
+bool sportMode = false;
+bool blinkerRechts = false;
+bool blinkerLinks = false;
 
 //servopins
 #define tachoPin 5
@@ -28,8 +39,20 @@ void setup() {
   }
 }
 
-void empfangen() {
-  if(Serial.available() >= 5){
+void loop(){
+  getInput();
+  computeValues();
+  servos();
+  leds();
+}
+
+//Inputvariablen von der seriellen Schnittstelle beziehen
+void getInput() {
+  if(Serial.available() >= 12){
+    //warten auf startbyte
+    while(Serial.read() != 0xFF){
+
+    }
     msbGeschwindigkeit = Serial.read();
     lsbGeschwindigkeit = Serial.read();
     msbDrehzahl = Serial.read();
@@ -38,33 +61,34 @@ void empfangen() {
   }
 }
 
-void loop(){
-  empfangen();
-  servos();
-  leds();
+//Statusvariablen aus Inputvariablen berechnen
+void computeValues(){
+  unsigned short tempMsbGeschwindigkeit = msbGeschwindigkeit;
+  geschwindigkeit = (tempMsbGeschwindigkeit<<8) + lsbGeschwindigkeit;
+
+  unsigned short tempMsbDrehzahl = msbDrehzahl;
+  drehzahl = (tempMsbDrehzahl<<8) + lsbDrehzahl;
+
+  gang = rest&0x07;
+  kupplung = (rest&0x08) == 0x08;
+  sportMode = (rest&0x10) == 0x10;
+  blinkerRechts = (rest&0x20) == 0x20;
+  blinkerLinks = (rest&0x40) == 0x40;
 }
 
+//Servosteuerung
 void servos(){
   //tacho
-  unsigned short tempMsbGeschwindigkeit = msbGeschwindigkeit;
-  unsigned short geschwindigkeit = (tempMsbGeschwindigkeit<<8) + lsbGeschwindigkeit;
   byte tachoOut = map(geschwindigkeit, 0, 65535, 0, 180);
   Tacho.write(tachoOut);
 
   //drehzahl
-  unsigned short tempMsbDrehzahl = msbDrehzahl;
-  unsigned short drehzahl = (tempMsbDrehzahl<<8) + lsbDrehzahl;
   byte drehzahlOut = map(drehzahl, 0, 65535, 0, 180);
   Drehzahl.write(drehzahlOut);
 }
 
+//LED-Steuerung
 void leds(){
-  byte gang = rest&0x07;
-  bool kupplung = (rest&0x08) == 0x08;
-  bool sportMode = (rest&0x10) == 0x10;
-  bool blinkerRechts = (rest&0x20) == 0x20;
-  bool blinkerLinks = (rest&0x40) == 0x40;
-
   //sport modus leds
   if(sportMode){
     digitalWrite(7, LOW);
@@ -97,10 +121,11 @@ void leds(){
     digitalWrite(17, LOW);
   }
 
+  //blinker leds
   if(blinkerRechts){
     digitalWrite(18, HIGH);
   } else{
-    digitalWrite(0, LOW);
+    digitalWrite(18, LOW);
   }
 
   if(blinkerLinks){

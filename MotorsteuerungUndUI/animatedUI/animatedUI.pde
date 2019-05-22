@@ -30,8 +30,9 @@ void setup(){
   
   sevenSegmentFont = createFont("sevenSegment.ttf", 50);
   
+  //Initialize Serial ports
   initPortAndSerial();
-  //initSPortAndSerial
+  initSPortAndSerial();
 }
 
 void draw(){
@@ -42,7 +43,7 @@ void draw(){
   if(blinkerLinks) drawBlinkerLinks();
   drawGauges();
   drawDisplays();
-  //sendSerial();
+  sendSerial();
 }
 
 //function for drawing both gauges
@@ -122,6 +123,7 @@ void drawDisplays(){
   }
 }
 
+//functions for drawing turning lights
 void drawBlinkerRechts(){
   float xoffset = width/15;
   pushMatrix();

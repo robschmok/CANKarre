@@ -1,11 +1,12 @@
 import processing.serial.*;
 
+//Serial objects
 Serial Arduino;
 
 Serial sArduino;
 
 //array for serial inputs from arduino
-//2xGeschwindigkeit, 2xDrehzahl, Gang/Kupplung; je die drei letzten werte
+//2xGeschwindigkeit, 2xDrehzahl, Gang/Kupplung; last three read inputs
 short[][] input = new short[5][3];
 
 //index for iterating over the three last values per input in input array
@@ -41,7 +42,6 @@ void getInput(){
     input[3][index] = (short)Arduino.read();
     //Gang/Kupplung
     input[4][index] = (short)Arduino.read();
-    println(input[4][0]);
   }
   index++;
   
@@ -71,7 +71,9 @@ void computeValues(){
   blinkerLinks = (input[4][0]&0x40) == 0x40;
 }
 
+//Sending data to arduino2
 void sendSerial(){
+  sArduino.write(0xFF);
   sArduino.write((byte)input[0][0]);
   sArduino.write((byte)input[1][0]);
   sArduino.write((byte)input[2][0]);
