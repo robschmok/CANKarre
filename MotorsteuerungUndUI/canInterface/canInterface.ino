@@ -85,7 +85,6 @@ void empfangen() {
 }
 
 void loop(){
-  empfangen();
   senden();
 }
 
