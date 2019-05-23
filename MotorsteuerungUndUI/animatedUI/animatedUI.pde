@@ -3,9 +3,9 @@
 
 //global status variables
 int drehzahl = 0;
-int maxDrehzahl = 65535;
+int maxDrehzahl = 65278;
 int geschwindigkeit = 0;
-int maxGeschwindigkeit = 65535;
+int maxGeschwindigkeit = 65278;
 //0=rückwarts; 1-7=forwärts
 byte gang = 0;
 boolean kupplung = false;
