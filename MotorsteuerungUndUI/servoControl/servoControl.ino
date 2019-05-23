@@ -79,11 +79,11 @@ void computeValues(){
 //Servosteuerung
 void servos(){
   //tacho
-  byte tachoOut = map(geschwindigkeit, 0, 65535, 0, 180);
+  byte tachoOut = map(geschwindigkeit, 0, 65278, 0, 180);
   Tacho.write(tachoOut);
 
   //drehzahl
-  byte drehzahlOut = map(drehzahl, 0, 65535, 0, 180);
+  byte drehzahlOut = map(drehzahl, 0, 65278, 0, 180);
   Drehzahl.write(drehzahlOut);
 }
 
