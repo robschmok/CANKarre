@@ -26,20 +26,16 @@ void setup() {
   //init CAN and CAN interrupt
   CAN0.setMode(MCP_NORMAL);  // Change to normal mode to allow messages to be transmitted
   pinMode(CAN0_INT, INPUT);  // RX: Configuring pin for /INT input
-  attachInterrupt(digitalPinToInterrupt(2), empfangen, FALLING);
+  attachInterrupt(digitalPinToInterrupt(CAN0_INT), empfangen, FALLING);
 
-  //init blinker timers
+  //init blinker timer
   noInterrupts();
   TCCR1A = 0;// set entire TCCR1A register to 0
   TCCR1B = 0;// same for TCCR1B
   TCNT1  = 0;//initialize counter value to 0
-  // set compare match register for 1hz increments
-  OCR1A = 3906;// = (16*10^6) / (1*1024) - 1 (must be <65536)
-  // turn on CTC mode
+  OCR1A = 3906;
   TCCR1B |= (1 << WGM12);
-  // Set CS12 and CS10 bits for 1024 prescaler
   TCCR1B |= (1 << CS12) | (1 << CS10);  
-  // enable timer compare interrupt
   TIMSK1 |= (1 << OCIE1A);
   interrupts();
 }
@@ -85,7 +81,6 @@ void empfangen() {
 }
 
 void loop(){
-  empfangen();
   senden();
 }
 

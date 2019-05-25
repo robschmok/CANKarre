@@ -2,7 +2,7 @@ volatile byte msbGeschwindigkeit = 0xBE;
 volatile byte lsbGeschwindigkeit = 0x20;
 volatile byte msbDrehzahl = 0xBF;
 volatile byte lsbDrehzahl = 0x40;
-volatile byte rest = 0x62;
+volatile byte rest = 0x21;
 volatile bool blinker = false;
 
 void setup() {

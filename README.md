@@ -1,4 +1,4 @@
-UI für das CAN projekt, motorsteuerung folgt vielleicht wenn Ader auch mal git installiert.
+﻿UI für das CAN projekt, motorsteuerung folgt vielleicht wenn Ader auch mal git installiert.
 
 Funtion der UI:
   - Arduino 1 empfängt Gschwindigkeit, Drehzahl, Gang, Kupplung, Sport/Comfort und Blinker über CAN,
@@ -16,8 +16,4 @@ Funtion der UI:
     einmalig gezeichnet und anschließend im animatedUI ordner unter background.png gespeichert.
     Das animatedUI sketch nimmt anschließend background.png als hintergrund und zeichnet Zeiger und
     andere Informationen einfach darüber.
-  - Um die physische Anzeige der Gruppe Carsten möglich zu machen, muss aufgrung der beschränkten Anzahl
-    von IO-Ports der Arduino2 alle Informationen Seriell und nicht über den CAN-Bus bekommen. Daher schickt
-    animatedUI bzw. das subprogramm ArduinoInterface anschließend alle Daten an den zweiten Arduino weiter.
-    Dies geschieht wie beim ersten Arduino mit einem startbyte von 0xFF um die Daten zuordnen zu können.
   - Alle sketches unter /test wurden für diverse Tests verwendet und können ignoriert werden.

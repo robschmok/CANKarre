@@ -1,9 +1,7 @@
 import processing.serial.*;
 
-//Serial objects
+//Serial object
 Serial Arduino;
-
-Serial sArduino;
 
 //array for serial inputs from arduino
 //2xGeschwindigkeit, 2xDrehzahl, Gang/Kupplung; last three read inputs
@@ -17,12 +15,6 @@ void initPortAndSerial(){
   String portName = Serial.list()[2];
   Arduino = new Serial(this, portName, 115200);
   Arduino.buffer(6);
-}
-
-//function for initializing servo arduino serial connection
-void initSPortAndSerial(){
-  String portName2 = Serial.list()[3];
-  sArduino = new Serial(this, portName2, 115200);
 }
 
 //function for receiving serial data from arduino and writing it into the input array
@@ -69,14 +61,4 @@ void computeValues(){
   blinkerRechts = (input[4][0]&0x20) == 0x20;
   
   blinkerLinks = (input[4][0]&0x40) == 0x40;
-}
-
-//Sending data to arduino2
-void sendSerial(){
-  sArduino.write(0xFF);
-  sArduino.write((byte)input[0][0]);
-  sArduino.write((byte)input[1][0]);
-  sArduino.write((byte)input[2][0]);
-  sArduino.write((byte)input[3][0]);
-  sArduino.write((byte)input[4][0]);
 }
