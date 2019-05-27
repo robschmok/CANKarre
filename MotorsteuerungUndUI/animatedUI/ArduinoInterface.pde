@@ -12,7 +12,7 @@ byte index = 0;
 
 //function for initializing arduino serial connection
 void initPortAndSerial(){
-  String portName = Serial.list()[2];
+  String portName = Serial.list()[0];
   Arduino = new Serial(this, portName, 115200);
   Arduino.buffer(6);
 }

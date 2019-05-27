@@ -22,6 +22,8 @@ PImage bckgrnd;
 //font for display values
 PFont sevenSegmentFont;
 
+boolean shitFlag = false;
+
 void setup(){
   bckgrnd = loadImage("background.png");
   //default 720x480
@@ -35,9 +37,17 @@ void setup(){
 }
 
 void draw(){
-  background(bckgrnd);
+  
   getInput();
   computeValues();
+  if(shitFlag){
+    background(bckgrnd);
+    drawAll();
+  }
+  shitFlag = !shitFlag;
+}
+
+void drawAll(){
   if(blinkerRechts) drawBlinkerRechts();
   if(blinkerLinks) drawBlinkerLinks();
   drawGauges();

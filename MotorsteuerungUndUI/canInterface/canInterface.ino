@@ -33,7 +33,7 @@ void setup() {
   TCCR1A = 0;// set entire TCCR1A register to 0
   TCCR1B = 0;// same for TCCR1B
   TCNT1  = 0;//initialize counter value to 0
-  OCR1A = 3906;
+  OCR1A = 7812;
   TCCR1B |= (1 << WGM12);
   TCCR1B |= (1 << CS12) | (1 << CS10);  
   TIMSK1 |= (1 << OCIE1A);
@@ -61,6 +61,7 @@ void empfangen() {
       if(lsbGeschwindigkeit == 0xFF) lsbGeschwindigkeit = 0xFE;
       if(msbDrehzahl == 0xFF) msbDrehzahl = 0xFE;
       if(lsbDrehzahl == 0xFF) lsbDrehzahl = 0xFE;
+      senden();
     //Nadine (Blinker)
     } else if(canID == 300){
       volatile bool blinkerRechts = (input[0]&0x01) == 0x01;
@@ -81,7 +82,6 @@ void empfangen() {
 }
 
 void loop(){
-  senden();
 }
 
 //send values to processing over serial

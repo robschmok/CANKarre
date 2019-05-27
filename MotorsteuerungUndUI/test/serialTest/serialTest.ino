@@ -2,7 +2,7 @@ volatile byte msbGeschwindigkeit = 0xBE;
 volatile byte lsbGeschwindigkeit = 0x20;
 volatile byte msbDrehzahl = 0xBF;
 volatile byte lsbDrehzahl = 0x40;
-volatile byte rest = 0x21;
+volatile byte rest = 0x41;
 volatile bool blinker = false;
 
 void setup() {
@@ -44,20 +44,14 @@ void senden(){
 
   byte restNeu = rest&0x9F;
   restNeu |= bRechtsOut | bLinksOut;
-
   Serial.write(0xFF);
-  Serial.write(msbGeschwindigkeit);
+  Serial.write(map(millis()%3000, 0, 2999, 0, 255));
   Serial.write(lsbGeschwindigkeit);
   Serial.write(msbDrehzahl);
   Serial.write(lsbDrehzahl);
   Serial.write(restNeu);
-  delay(10);
-
-  msbGeschwindigkeit++;
-  msbDrehzahl++;
-
-  if(msbGeschwindigkeit >= 0xFE) msbGeschwindigkeit = 0x00;
-  if(msbDrehzahl >= 0xFE) msbDrehzahl = 0x00;
+  delay(18);
+  
 }
 
 
