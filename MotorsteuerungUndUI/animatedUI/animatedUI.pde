@@ -22,7 +22,7 @@ PImage bckgrnd;
 //font for display values
 PFont sevenSegmentFont;
 
-boolean shitFlag = false;
+boolean delayFlag = false;
 
 void setup(){
   bckgrnd = loadImage("background.png");
@@ -40,11 +40,11 @@ void draw(){
   
   getInput();
   computeValues();
-  if(shitFlag){
+  if(delayFlag){
     background(bckgrnd);
     drawAll();
   }
-  shitFlag = !shitFlag;
+  delayFlag = !delayFlag;
 }
 
 void drawAll(){
