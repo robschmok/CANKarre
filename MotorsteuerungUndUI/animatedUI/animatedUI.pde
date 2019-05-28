@@ -22,29 +22,48 @@ PImage bckgrnd;
 //font for display values
 PFont sevenSegmentFont;
 
-boolean delayFlag = false;
+//For ensuring proper resolution scaling
+int tenPixelEquivalent;
+
+int waitCounter = 0;
+final int waitUntil = 2;
 
 void setup(){
-  bckgrnd = loadImage("background.png");
-  //default 720x480
-  size(720, 480);
+  //bckgrnd = loadImage("backgroundSD.png");
+  //bckgrnd = loadImage("backgroundHD.png");
+  bckgrnd = loadImage("backgroundFHD.png");
+  
+  //size(720, 480);
+  //size(1280, 720);
+  size(1920, 1080);
+  
   background(bckgrnd);
   
-  sevenSegmentFont = createFont("sevenSegment.ttf", 50);
+  sevenSegmentFont = createFont("sevenSegment.ttf", width/14.4);
+  
+  tenPixelEquivalent = width/72;
   
   //Initialize Serial port
+  if(!testEnvironment)
   initPortAndSerial();
 }
 
+
+
 void draw(){
-  
-  getInput();
-  computeValues();
-  if(delayFlag){
+  if(!testEnvironment){
+    getInput();
+    computeValues();
+  } else{
+    geschwindigkeitTest(400);
+    drehzahlTest(400);
+  }
+  if(waitCounter == waitUntil){
     background(bckgrnd);
     drawAll();
+    waitCounter = 0;
   }
-  delayFlag = !delayFlag;
+  waitCounter++;
 }
 
 void drawAll(){
@@ -107,15 +126,15 @@ void drawDisplays(){
   stroke(255);
   strokeWeight(2);
   if(kupplung){
-    ellipse(posx - 30, posy, 10, 10);
-    ellipse(posx - 30, posy, 40, 40);
-    ellipse(posx + 40, posy, 10, 10);
-    ellipse(posx + 40, posy, 60, 60);
+    ellipse(posx - 3*tenPixelEquivalent, posy, tenPixelEquivalent, tenPixelEquivalent);
+    ellipse(posx - 3*tenPixelEquivalent, posy, 4*tenPixelEquivalent, 4*tenPixelEquivalent);
+    ellipse(posx + 4*tenPixelEquivalent, posy, tenPixelEquivalent, tenPixelEquivalent);
+    ellipse(posx + 4*tenPixelEquivalent, posy, 6*tenPixelEquivalent, 6*tenPixelEquivalent);
   } else{
-    ellipse(posx - 20, posy, 10, 10);
-    ellipse(posx - 20, posy, 40, 40);
-    ellipse(posx + 30, posy, 10, 10);
-    ellipse(posx + 30, posy, 60, 60);
+    ellipse(posx - 2*tenPixelEquivalent, posy, tenPixelEquivalent, tenPixelEquivalent);
+    ellipse(posx - 2*tenPixelEquivalent, posy, 4*tenPixelEquivalent, 4*tenPixelEquivalent);
+    ellipse(posx + 3*tenPixelEquivalent, posy, tenPixelEquivalent, tenPixelEquivalent);
+    ellipse(posx + 3*tenPixelEquivalent, posy, 6*tenPixelEquivalent, 6*tenPixelEquivalent);
   }
   
   posx = 2*width/7;
@@ -135,16 +154,16 @@ void drawDisplays(){
 void drawBlinkerRechts(){
   float xoffset = width/15;
   pushMatrix();
-  translate(width - width/3.5 + xoffset, height/2 - 10);
+  translate(width - width/3.5 + xoffset, height/2 - tenPixelEquivalent);
   fill(0, 255, 0);
   beginShape();
   vertex(0, 0);
-  vertex(30, 0);
-  vertex(30, -10);
-  vertex(50, 10);
-  vertex(30, 30);
-  vertex(30, 20);
-  vertex(0, 20);
+  vertex(3*tenPixelEquivalent, 0);
+  vertex(3*tenPixelEquivalent, -tenPixelEquivalent);
+  vertex(5*tenPixelEquivalent, tenPixelEquivalent);
+  vertex(3*tenPixelEquivalent, 3*tenPixelEquivalent);
+  vertex(3*tenPixelEquivalent, 2*tenPixelEquivalent);
+  vertex(0, 2*tenPixelEquivalent);
   endShape();
   popMatrix();
 }
@@ -152,16 +171,16 @@ void drawBlinkerRechts(){
 void drawBlinkerLinks(){
   float xoffset = width/15;
   pushMatrix();
-  translate(width - width/3.5 - xoffset, height/2 - 10);
+  translate(width - width/3.5 - xoffset, height/2 - tenPixelEquivalent);
   fill(0, 255, 0);
   beginShape();
   vertex(0, 0);
-  vertex(-30, 0);
-  vertex(-30, -10);
-  vertex(-50, 10);
-  vertex(-30, 30);
-  vertex(-30, 20);
-  vertex(0, 20);
+  vertex(-3*tenPixelEquivalent, 0);
+  vertex(-3*tenPixelEquivalent, -tenPixelEquivalent);
+  vertex(-5*tenPixelEquivalent, tenPixelEquivalent);
+  vertex(-3*tenPixelEquivalent, 3*tenPixelEquivalent);
+  vertex(-3*tenPixelEquivalent, 2*tenPixelEquivalent);
+  vertex(0, 2*tenPixelEquivalent);
   endShape();
   popMatrix();
 }

@@ -8,7 +8,7 @@ void setup(){
 
   
   drawBackground();
-  saveFrame("../animatedUI/background.png");
+  saveFrame("../animatedUI/backgroundSD.png");
 }
 
 void draw(){

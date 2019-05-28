@@ -112,6 +112,8 @@ void leds(){
     for(byte i = 7; i>gang; i--){
       digitalWrite(i+8, LOW);
     }
+
+    digitalWrite(16, LOW);
   }
   
   //kupplung leds

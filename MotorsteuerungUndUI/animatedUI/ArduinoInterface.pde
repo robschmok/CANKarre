@@ -34,6 +34,7 @@ void getInput(){
     input[3][index] = (short)Arduino.read();
     //Gang/Kupplung
     input[4][index] = (short)Arduino.read();
+    println("received");
   }
   index++;
   

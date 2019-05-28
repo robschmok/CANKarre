@@ -1,0 +1,29 @@
+#######################################
+# Syntax Coloring Map SPI
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+AUTO	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+update			KEYWORD2
+getDrehzahl		KEYWORD2
+getGeschwindigkeit	KEYWORD2
+getGang			KEYWORD2
+setGas			KEYWORD2
+setBremse		KEYWORD2
+setKupplung		KEYWORD2
+setGang			KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+masse	LITERAL1
+radius	LITERAL1
+hubraum	LITERAL1

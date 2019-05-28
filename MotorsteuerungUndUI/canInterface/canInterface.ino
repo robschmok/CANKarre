@@ -21,7 +21,7 @@ byte empf_len;
 void setup() {
   //start CAN and serial bus
   Serial.begin(115200);
-  CAN0.begin(MCP_ANY, CAN_10KBPS, MCP_16MHZ);
+  Serial.println(CAN0.begin(MCP_ANY, CAN_10KBPS, MCP_16MHZ)==CAN_OK);
 
   //init CAN and CAN interrupt
   CAN0.setMode(MCP_NORMAL);  // Change to normal mode to allow messages to be transmitted
@@ -69,13 +69,13 @@ void empfangen() {
       if(blinkerRechts){
         rest |= 0x20;
       } else{
-        rest &= 0x5F;
+        rest &= (!0x20);
       }
 
       if(blinkerLinks){
         rest |= 0x40;
       } else{
-        rest &= 0x3F;
+        rest &= (!0x40);
       }
     }
   }
