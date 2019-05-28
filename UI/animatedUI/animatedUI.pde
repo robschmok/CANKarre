@@ -10,7 +10,7 @@ int maxGeschwindigkeit = 65278;
 byte gang = 0;
 boolean kupplung = false;
 boolean sportModus = false;
-boolean blinkerLinks = false;
+boolean blinkerLinks = true;
 boolean blinkerRechts = false;
 
 //boolean to toggle test animations and button functions
